@@ -1,0 +1,292 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214.3 31.8% 91.4%;
+    --ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+  }
+  ::selection {
+    @apply bg-primary-100 text-primary-900;
+  }
+}
+
+/* Term highlighting */
+.term-highlight {
+  @apply bg-amber-100 text-amber-800 rounded px-0.5 cursor-pointer transition-colors;
+}
+
+.term-highlight:hover {
+  @apply bg-amber-200;
+}
+
+/* ==================== Prose Typography ==================== */
+.prose {
+  @apply text-gray-700 leading-relaxed;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.prose p {
+  @apply my-4;
+}
+
+/* Headings with visual hierarchy */
+.prose h1 {
+  @apply text-2xl font-bold text-gray-900 mt-8 mb-4 pb-3 border-b-2 border-primary-500;
+  background: linear-gradient(90deg, #3b82f6 0%, transparent 100%);
+  background-size: 100% 2px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+.prose h2 {
+  @apply text-xl font-bold text-gray-900 mt-8 mb-4 pb-2 pl-3 border-l-4 border-primary-500;
+}
+
+.prose h3 {
+  @apply text-lg font-semibold text-gray-800 mt-6 mb-3 flex items-center gap-2;
+}
+
+.prose h3::before {
+  content: "▸";
+  @apply text-primary-500;
+}
+
+.prose h4 {
+  @apply text-base font-semibold text-gray-800 mt-5 mb-2;
+}
+
+.prose h5, .prose h6 {
+  @apply text-sm font-semibold text-gray-700 mt-4 mb-2 uppercase tracking-wide;
+}
+
+/* Links */
+.prose a {
+  @apply text-primary-600 hover:text-primary-700 underline decoration-primary-300 hover:decoration-primary-500 transition-colors;
+}
+
+/* Text emphasis */
+.prose strong {
+  @apply font-semibold text-gray-900;
+}
+
+.prose em {
+  @apply italic text-gray-600;
+}
+
+/* Blockquotes - paper style */
+.prose blockquote {
+  @apply border-l-4 border-primary-400 pl-4 py-2 my-4 bg-gradient-to-r from-primary-50 to-transparent rounded-r-lg text-gray-600 italic;
+}
+
+/* Lists */
+.prose ul {
+  @apply list-none pl-0 my-4 space-y-2;
+}
+
+.prose ul > li {
+  @apply relative pl-6 text-gray-700;
+}
+
+.prose ul > li::before {
+  content: "•";
+  @apply absolute left-0 text-primary-500 font-bold;
+}
+
+.prose ol {
+  @apply list-none pl-0 my-4 space-y-2;
+  counter-reset: item;
+}
+
+.prose ol > li {
+  @apply relative pl-8 text-gray-700;
+  counter-increment: item;
+}
+
+.prose ol > li::before {
+  content: counter(item);
+  @apply absolute left-0 w-6 h-6 flex items-center justify-center bg-primary-100 text-primary-700 text-xs font-semibold rounded-full;
+}
+
+.prose li > ul, .prose li > ol {
+  @apply mt-2 mb-0 ml-4;
+}
+
+.prose li > ul > li::before {
+  content: "◦";
+}
+
+/* Horizontal rule */
+.prose hr {
+  @apply my-8 border-0 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent;
+}
+
+/* ==================== Code Blocks ==================== */
+.prose pre {
+  @apply bg-gray-900 text-gray-100 rounded-lg overflow-x-auto m-0 p-0 my-4 shadow-lg;
+}
+
+.prose :not(pre) > code {
+  @apply bg-primary-50 text-primary-700 rounded px-1.5 py-0.5 text-sm font-mono border border-primary-100;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-inherit border-0;
+}
+
+/* ==================== Tables ==================== */
+.prose table {
+  @apply w-full text-sm border-collapse my-6 shadow-sm rounded-lg overflow-hidden;
+  display: block;
+  overflow-x: auto;
+}
+
+.prose thead {
+  @apply bg-gradient-to-r from-primary-600 to-primary-500 text-white;
+}
+
+.prose thead th {
+  @apply font-semibold text-left px-4 py-3;
+}
+
+.prose tbody tr {
+  @apply border-b border-gray-100 transition-colors;
+}
+
+.prose tbody tr:hover {
+  @apply bg-primary-50;
+}
+
+.prose th,
+.prose td {
+  @apply px-4 py-3 align-top;
+}
+
+.prose td {
+  @apply text-gray-700;
+}
+
+/* ==================== Images ==================== */
+.prose img {
+  @apply max-w-full h-auto rounded-lg shadow-md my-4 border border-gray-100;
+}
+
+.prose p > img {
+  @apply mx-auto;
+}
+
+.prose figure {
+  @apply my-6 text-center;
+}
+
+.prose figcaption {
+  @apply text-sm text-gray-500 mt-2 italic;
+}
+
+.prose .image-row {
+  @apply flex flex-wrap justify-center gap-4 my-6;
+}
+
+.prose .image-row img {
+  @apply m-0 shadow-sm;
+}
+
+/* ==================== KaTeX Math ==================== */
+.katex-display {
+  @apply overflow-x-auto py-4 px-2 my-4 bg-gray-50 rounded-lg border border-gray-100;
+}
+
+.prose .katex {
+  @apply text-gray-800;
+}
+
+/* ==================== Deep Analysis Report Styles ==================== */
+/* Report title */
+.prose h1:first-child {
+  @apply text-2xl font-bold text-center mb-6 pb-4;
+  background: linear-gradient(90deg, transparent 0%, #3b82f6 50%, transparent 100%);
+  background-size: 100% 2px;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
+/* Dimension sections - h2 with icons */
+.prose h2:has(+ p), .prose h2:has(+ ul), .prose h2:has(+ ol) {
+  @apply bg-gradient-to-r from-gray-50 to-transparent py-2 -mx-2 px-2 rounded-lg;
+}
+
+/* Innovation points, advantages, limitations styling */
+.prose strong:first-child {
+  @apply text-primary-700;
+}
+
+/* Numbered items in analysis */
+.prose p > strong:first-child {
+  @apply inline-block min-w-[1.5rem];
+}
+
+/* ==================== Paper Content Styles ==================== */
+/* Abstract styling */
+.prose p:first-of-type {
+  @apply text-lg leading-relaxed text-gray-600;
+}
+
+/* Section numbers */
+.prose h2 > strong:first-child,
+.prose h3 > strong:first-child {
+  @apply text-primary-600 mr-2;
+}
+
+/* References section */
+.prose h2:contains("References"),
+.prose h2:contains("参考文献") {
+  @apply text-lg;
+}
+
+/* ==================== Scrollbar ==================== */
+::-webkit-scrollbar {
+  @apply w-2 h-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full hover:bg-gray-400;
+}
+
+/* ==================== Animations ==================== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.prose > * {
+  animation: fadeIn 0.3s ease-out;
+}

@@ -1,0 +1,67 @@
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-papermate}
+    ports:
+      # Use DB_BIND=0.0.0.0 for remote access, default to localhost for security
+      - "${DB_BIND:-127.0.0.1}:5433:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # MinerU PDF Parser - uncomment when needed
+  # mineru:
+  #   image: opendatalab/mineru:latest
+  #   ports:
+  #     - "8010:8000"
+  #   environment:
+  #     MINERU_API_ENABLE_FASTAPI_DOCS: "1"
+  #   volumes:
+  #     - mineru_cache:/root/.cache
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql+asyncpg://postgres:postgres@db:5432/papermate}
+      UPLOAD_DIR: /app/uploads
+      MINERU_API_URL: ${MINERU_API_URL:-http://host.docker.internal:8010}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-}
+      DEBUG: ${DEBUG:-false}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:3000}
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+      - uploads_data:/app/uploads
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+    profiles:
+      - dev
+
+volumes:
+  db_data:
+  uploads_data:
+  # mineru_cache:
