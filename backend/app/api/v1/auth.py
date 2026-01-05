@@ -126,7 +126,16 @@ async def register(
     refresh_token = create_refresh_token({"sub": str(user.id)})
     set_auth_cookies(response, access_token, refresh_token)
 
-    return user
+    return {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "expertise_level": user.expertise_level,
+        "is_active": user.is_active,
+        "is_superuser": user.is_superuser,
+        "created_at": user.created_at,
+        "org_id": org.id
+    }
 
 
 @router.post("/login", response_model=UserResponse)
@@ -165,7 +174,32 @@ async def login(
     set_auth_cookies(response, access_token, refresh_token)
     login_user_limiter.reset(user_key)
 
-    return user
+    # Get user's organization
+    result = await db.execute(
+        select(OrgMembership).where(OrgMembership.user_id == user.id).limit(1)
+    )
+    membership = result.scalar_one_or_none()
+
+    # Auto-create organization if missing
+    if not membership:
+        org = Organization(name=f"{user.name or user.email}'s Workspace")
+        db.add(org)
+        await db.flush()
+
+        membership = OrgMembership(org_id=org.id, user_id=user.id, role="owner")
+        db.add(membership)
+        await db.commit()
+
+    return {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "expertise_level": user.expertise_level,
+        "is_active": user.is_active,
+        "is_superuser": user.is_superuser,
+        "created_at": user.created_at,
+        "org_id": membership.org_id
+    }
 
 
 @router.post("/refresh")
@@ -211,8 +245,38 @@ async def logout(response: Response):
 
 
 @router.get("/me", response_model=UserResponse)
-async def get_me(current_user: Annotated[User, Depends(get_current_user)]):
-    return current_user
+async def get_me(
+    current_user: Annotated[User, Depends(get_current_user)],
+    db: Annotated[AsyncSession, Depends(get_db)]
+):
+    # Get user's organization
+    result = await db.execute(
+        select(OrgMembership).where(OrgMembership.user_id == current_user.id).limit(1)
+    )
+    membership = result.scalar_one_or_none()
+
+    # Auto-create organization if missing
+    if not membership:
+        org = Organization(name=f"{current_user.name or current_user.email}'s Workspace")
+        db.add(org)
+        await db.flush()
+
+        membership = OrgMembership(org_id=org.id, user_id=current_user.id, role="owner")
+        db.add(membership)
+        await db.commit()
+
+    # Add org_id to user response
+    user_dict = {
+        "id": current_user.id,
+        "email": current_user.email,
+        "name": current_user.name,
+        "expertise_level": current_user.expertise_level,
+        "is_active": current_user.is_active,
+        "is_superuser": current_user.is_superuser,
+        "created_at": current_user.created_at,
+        "org_id": membership.org_id
+    }
+    return user_dict
 
 
 @router.get("/me/profile")

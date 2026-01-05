@@ -24,6 +24,7 @@ class UserResponse(UserBase):
     is_active: bool
     is_superuser: bool = False
     created_at: datetime
+    org_id: uuid.UUID | None = None
 
     class Config:
         from_attributes = True

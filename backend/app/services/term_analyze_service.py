@@ -290,13 +290,12 @@ class TermAnalyzeService:
     MAX_TOOL_ROUNDS = 5
     LLM_TIMEOUT_SECONDS = 180  # 3 minutes for reasoning models
 
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: AsyncSession, user_id: uuid.UUID):
         self.db = db
-        self.base_url = (settings.openai_base_url or "https://api.openai.com/v1").rstrip("/")
-        if not self.base_url.endswith("/v1") and "/v1/" not in self.base_url:
-            self.base_url = f"{self.base_url}/v1"
-        self.api_key = settings.openai_api_key
-        self.model = settings.openai_model
+        self.user_id = user_id
+        self.base_url: str | None = None
+        self.api_key: str | None = None
+        self.model: str | None = None
 
     def _get_tools(self) -> list[dict]:
         """Get available tools based on configuration."""
@@ -371,6 +370,15 @@ class TermAnalyzeService:
                     return resp.json()
                 raise
 
+    async def _load_user_settings(self) -> None:
+        """Load effective settings for the current user."""
+        from app.services.openai_settings import get_openai_settings
+
+        user_settings = await get_openai_settings(self.db, self.user_id)
+        self.base_url = user_settings["base_url"]
+        self.api_key = user_settings["api_key"]
+        self.model = user_settings["model"]
+
     async def analyze_term_stream(
         self,
         phrase: str,
@@ -388,6 +396,7 @@ class TermAnalyzeService:
         - {"type": "done", "result": {...}}
         - {"type": "error", "message": "..."}
         """
+        await self._load_user_settings()
 
         def emit(data: dict) -> str:
             result = json.dumps(data, ensure_ascii=False)

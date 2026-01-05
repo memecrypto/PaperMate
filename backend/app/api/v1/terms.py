@@ -168,7 +168,7 @@ async def analyze_term_stream(
     if not member_result.scalar_one_or_none():
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="No access")
 
-    service = TermAnalyzeService(db)
+    service = TermAnalyzeService(db, current_user.id)
 
     async def event_generator() -> AsyncGenerator[str, None]:
         async for chunk in service.analyze_term_stream(

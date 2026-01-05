@@ -32,9 +32,13 @@ const DashboardPage: React.FC = () => {
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!newProjectName.trim()) return
+    if (!user?.org_id) {
+      alert('无法获取组织信息，请重新登录')
+      return
+    }
     const project = await createProject({
       name: newProjectName,
-      org_id: projects[0]?.org_id || ''
+      org_id: user.org_id
     })
     setCurrentProject(project)
     setNewProjectName('')
